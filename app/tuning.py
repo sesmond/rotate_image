@@ -14,7 +14,7 @@ class RotateProcessor(object):
         self.perc = 50
         self.range = 20
         self.bignore = 0.2
-        self.maxskew = 90
+        self.maxskew = 10 #TODO 微调角度
         self.skewsteps = 1
         self.escale = 1.0
         self.lo = 0.05
