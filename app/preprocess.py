@@ -79,23 +79,23 @@ def main(config: Config):
         for im_line in img_lines:
             f_path = im_line.rstrip('\n')
             # print("f_path:", f_path)
-            print("-------", f_path.split(" "))
+            logger.info("------- %r", f_path.split(" "))
             [im_fn, img_angle] = f_path.split(" ")
 
             image = cv2.imread(im_fn)
             cnt_all += 1
             # 预测
-            logger.info("image shape:",image.shape)
+            logger.info("image shape:%r",image.shape)
             angle, img_rotate = tuning(image)
             if config.do_crop_edge:
                 img_rotate = crop_image_edge(img_rotate, config.crop_edge_percent)
 
-            print("小角度：", angle)
+            logger.info("小角度：%r", angle)
             patches = preprocess_utils.get_patches(img_rotate, config)
             # logger.debug("将图像分成%d个patches", len(patches))
-            print("开始预测")
+            logger.info("开始预测")
             candiCls = sess.run(output, feed_dict={input_x: patches})
-            print("预测结束：", candiCls)
+            logger.info("预测结束：%r", candiCls)
             # 返回众数
             counts = np.bincount(candiCls)
             cls = np.argmax(counts)
@@ -104,10 +104,10 @@ def main(config: Config):
             real_cls = ANGLE_MAP.get(cls)
             if str(real_cls) == img_angle:
                 true_cnt += 1
-                print("预测正确")
+                logger.info("预测正确")
             else:
-                print("预测错误")
-            print("预测角度：", cls, real_cls, ",真实角度：", img_angle,"已预测条数：",cnt_all,"，正确条数：",true_cnt)
+                logger.info("预测错误")
+            logger.info("预测角度：%r,%r", cls, real_cls, ",真实角度：%r", img_angle,"已预测条数：%r",cnt_all,"，正确条数：%r",true_cnt)
             #
             # if cls == 0:
             #     rotate_image = image
@@ -117,8 +117,8 @@ def main(config: Config):
             #     rotate_image = cv2.rotate(image, cv2.ROTATE_180)
             # elif cls == 3:
             #     rotate_image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
-        print("--------------end------------------------")
-        logger.info("模式[",config.name,"]预测结束：总条数：", cnt_all, ",正确条数：", true_cnt, "，正确率：", true_cnt / cnt_all)
+        logger.info("--------------end------------------------")
+        logger.info("模式[%r",config.name,"]预测结束：总条数：", cnt_all, ",正确条数：", true_cnt, "，正确率：", true_cnt / cnt_all)
 
 
 if __name__ == '__main__':
