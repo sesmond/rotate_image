@@ -150,7 +150,7 @@ def main(config: Config):
     # sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
     # init = tf.global_variables_initializer()
     # sess.run(init)
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0, 1'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     gpuConfig = tf.ConfigProto(allow_soft_placement=True)
     gpuConfig.gpu_options.allow_growth = True
     with tf.Session(config=gpuConfig) as sess:
@@ -232,13 +232,15 @@ if __name__ == '__main__':
     main(config4)
 
     config5 = Config()
-    config5.name = "nms最小200"
+    config5.name = "nms最小200最大2000"
     config5.nms_min_area = 200
+    config5.nms_min_area = 2000
     main(config5)
 
     config5 = Config()
-    config5.name = "nms最小200 & iou0.5"
+    config5.name = "nms最小200最大2000 & iou0.5"
     config5.nms_min_area = 200
+    config5.nms_min_area = 2000
     config5.nms_iou = 0.5
     main(config5)
 
