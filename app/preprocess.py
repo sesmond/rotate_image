@@ -59,7 +59,6 @@ def main(config: Config):
     # sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
     # init = tf.global_variables_initializer()
     # sess.run(init)
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     gpuConfig = tf.ConfigProto(allow_soft_placement=True, log_device_placement = True)
     gpuConfig.gpu_options.allow_growth = True
     with tf.Session(config=gpuConfig) as sess:
@@ -122,6 +121,7 @@ def main(config: Config):
 
 
 if __name__ == '__main__':
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     config1 = Config()
     config1.name = "默认"
     main(config1)
