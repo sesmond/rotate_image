@@ -192,12 +192,12 @@ def main(config: Config):
             angle = CLASS_NAME[cls]
             # TODO 验证
             real_cls = ANGLE_MAP.get(cls)
-            print("预测角度：", cls, real_cls, ",真实角度：", img_angle)
             if str(real_cls) == img_angle:
                 true_cnt += 1
                 print("预测正确")
             else:
                 print("预测错误")
+            print("预测角度：", cls, real_cls, ",真实角度：", img_angle,"已预测条数：",cnt_all,"，正确条数：",true_cnt)
             #
             # if cls == 0:
             #     rotate_image = image
