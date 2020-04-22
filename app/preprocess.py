@@ -107,7 +107,7 @@ def main(config: Config):
                 logger.info("预测正确")
             else:
                 logger.info("预测错误")
-            logger.info("预测角度：%r,%r", cls, real_cls, ",真实角度：%r", img_angle,"已预测条数：%r",cnt_all,"，正确条数：%r",true_cnt)
+            logger.info("预测角度：%r,%r,真实角度：%r,已预测条数：%r，正确条数：%r", cls, real_cls, img_angle,cnt_all,true_cnt)
             #
             # if cls == 0:
             #     rotate_image = image
@@ -118,7 +118,7 @@ def main(config: Config):
             # elif cls == 3:
             #     rotate_image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
         logger.info("--------------end------------------------")
-        logger.info("模式[%r",config.name,"]预测结束：总条数：", cnt_all, ",正确条数：", true_cnt, "，正确率：", true_cnt / cnt_all)
+        logger.info("模式[%r""]预测结束：总条数：%r,正确条数：%r,，正确率:%r",config.name, cnt_all, true_cnt, true_cnt / cnt_all)
 
 
 if __name__ == '__main__':
