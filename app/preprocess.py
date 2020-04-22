@@ -121,7 +121,7 @@ def main(config: Config):
 
 
 if __name__ == '__main__':
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
     config1 = Config()
     config1.name = "默认"
     main(config1)
