@@ -11,7 +11,6 @@ import tensorflow as tf
 import os
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
-os.environ['CUDA_VISIBLE_DEVICES'] = '0, 1'
 
 rotate_processor = RotateProcessor()
 
@@ -148,11 +147,13 @@ def main(config: Config):
     img_path_txt = "data/validate.txt"
 
     img_lines = open(img_path_txt).readlines()
-    sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
-    init = tf.global_variables_initializer()
-    sess.run(init)
-
-    with sess:
+    # sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
+    # init = tf.global_variables_initializer()
+    # sess.run(init)
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0, 1'
+    gpuConfig = tf.ConfigProto(allow_soft_placement=True)
+    gpuConfig.gpu_options.allow_growth = True
+    with tf.Session(config=gpuConfig) as sess:
         # 从pb模型直接恢复
 
         meta_graph_def = tf.saved_model.loader.load(sess, [tf.saved_model.tag_constants.SERVING], model_path)
