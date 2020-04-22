@@ -11,6 +11,7 @@ import tensorflow as tf
 import os
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+os.environ['CUDA_VISIBLE_DEVICES'] = '0, 1'
 
 rotate_processor = RotateProcessor()
 
