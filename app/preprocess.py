@@ -190,9 +190,9 @@ def main(config: Config):
             counts = np.bincount(candiCls)
             cls = np.argmax(counts)
             angle = CLASS_NAME[cls]
-            print("预测角度：", cls, angle, ",真实角度：", img_angle)
             # TODO 验证
             real_cls = ANGLE_MAP.get(cls)
+            print("预测角度：", cls, real_cls, ",真实角度：", img_angle)
             if str(real_cls) == img_angle:
                 true_cnt += 1
                 print("预测正确")
