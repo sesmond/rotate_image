@@ -127,22 +127,22 @@ def tuning(image):
     return angle, img_rotate
 
 
-def crop_image_edge(image,percent):
+def crop_image_edge(image, percent):
     """
     切除图片的边缘
     :param image:
     :param percent: 边缘百分比
     :return:
     """
-    w,h,_ = image.shape
-    w_c = int(w*percent)
-    h_c = int(h*percent)
+    w, h, _ = image.shape
+    w_c = int(w * percent)
+    h_c = int(h * percent)
 
-    new_img = image[w_c:w-w_c , h_c:h-h_c]
+    new_img = image[w_c:w - w_c, h_c:h - h_c]
     return new_img
 
 
-def main(config:Config):
+def main(config: Config):
     model_path = "./model/100001"
     img_path_txt = "data/validate.txt"
 
@@ -174,12 +174,13 @@ def main(config:Config):
             image = cv2.imread(im_fn)
             cnt_all += 1
             # 预测
+            print("image shape:",image.shape)
             angle, img_rotate = tuning(image)
             if config.do_crop_edge:
-                img_rotate = crop_image_edge(img_rotate,config.crop_edge_percent)
+                img_rotate = crop_image_edge(img_rotate, config.crop_edge_percent)
 
             print("小角度：", angle)
-            patches = preprocess_utils.get_patches(img_rotate,config)
+            patches = preprocess_utils.get_patches(img_rotate, config)
             # logger.debug("将图像分成%d个patches", len(patches))
             print("开始预测")
             candiCls = sess.run(output, feed_dict={input_x: patches})
@@ -206,7 +207,7 @@ def main(config:Config):
             # elif cls == 3:
             #     rotate_image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
         print("--------------end------------------------")
-        print("模式 预测结束：总条数：",cnt_all,",正确条数：",true_cnt,"，正确率：",true_cnt/cnt_all)
+        print("模式 预测结束：总条数：", cnt_all, ",正确条数：", true_cnt, "，正确率：", true_cnt / cnt_all)
 
 
 if __name__ == '__main__':
