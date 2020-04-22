@@ -59,7 +59,7 @@ def pred_batch(config: Config):
     # sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
     # init = tf.global_variables_initializer()
     # sess.run(init)
-    gpuConfig = tf.ConfigProto(allow_soft_placement=True, log_device_placement = True)
+    gpuConfig = tf.ConfigProto(allow_soft_placement=True)
     gpuConfig.gpu_options.allow_growth = True
     with tf.Session(config=gpuConfig) as sess:
         # 从pb模型直接恢复
@@ -122,39 +122,38 @@ def pred_batch(config: Config):
 
 def main(argv=None):
     os.environ['CUDA_VISIBLE_DEVICES'] = '1'
-    with tf.device('/gpu:1'):
-        config1 = Config()
-        config1.name = "默认"
-        pred_batch(config1)
+    config1 = Config()
+    config1.name = "默认"
+    pred_batch(config1)
 
-        config2 = Config()
-        config2.name = "无标准化"
-        config2.do_std = False
-        pred_batch(config2)
+    config2 = Config()
+    config2.name = "无标准化"
+    config2.do_std = False
+    pred_batch(config2)
 
-        config3 = Config()
-        config3.name = "切除边缘%5,标准化"
-        config3.do_crop_edge = True
-        pred_batch(config3)
+    config3 = Config()
+    config3.name = "切除边缘%5,标准化"
+    config3.do_crop_edge = True
+    pred_batch(config3)
 
-        config4 = Config()
-        config4.name = "切除边缘%5,无标准化"
-        config4.do_crop_edge = True
-        pred_batch(config4)
+    config4 = Config()
+    config4.name = "切除边缘%5,无标准化"
+    config4.do_crop_edge = True
+    pred_batch(config4)
 
-        config5 = Config()
-        config5.name = "nms最小200最大2000"
-        config5.nms_min_area = 200
-        config5.nms_min_area = 2000
-        pred_batch(config5)
+    config5 = Config()
+    config5.name = "nms最小200最大2000"
+    config5.nms_min_area = 200
+    config5.nms_min_area = 2000
+    pred_batch(config5)
 
-        config5 = Config()
-        config5.name = "nms最小200最大2000 & iou0.5"
-        config5.nms_min_area = 200
-        config5.nms_min_area = 2000
-        config5.nms_iou = 0.5
-        pred_batch(config5)
+    config5 = Config()
+    config5.name = "nms最小200最大2000 & iou0.5"
+    config5.nms_min_area = 200
+    config5.nms_min_area = 2000
+    config5.nms_iou = 0.5
+    pred_batch(config5)
 
 
 if __name__ == '__main__':
-    tf.app.run()
+    main()
