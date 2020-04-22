@@ -119,7 +119,8 @@ def pred_batch(config: Config):
         logger.info("--------------end------------------------")
         logger.info("模式[%r""]预测结束：总条数：%r,正确条数：%r,，正确率:%r",config.name, cnt_all, true_cnt, true_cnt / cnt_all)
 
-def main():
+
+def main(argv=None):
     os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     with tf.device('/gpu:1'):
         config1 = Config()
@@ -152,7 +153,7 @@ def main():
         config5.nms_min_area = 200
         config5.nms_min_area = 2000
         config5.nms_iou = 0.5
-        main(config5)
+        pred_batch(config5)
 
 
 if __name__ == '__main__':
