@@ -1,4 +1,6 @@
 class Config:
+    #
+    name = "default"
     # 小图片最多个数
     max_counter = 32
     # 是否标准化

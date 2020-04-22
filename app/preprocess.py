@@ -209,11 +209,36 @@ def main(config: Config):
             # elif cls == 3:
             #     rotate_image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
         print("--------------end------------------------")
-        print("模式 预测结束：总条数：", cnt_all, ",正确条数：", true_cnt, "，正确率：", true_cnt / cnt_all)
+        print("模式[",config.name,"]预测结束：总条数：", cnt_all, ",正确条数：", true_cnt, "，正确率：", true_cnt / cnt_all)
 
 
 if __name__ == '__main__':
     config1 = Config()
+    config1.name = "默认"
     main(config1)
-    # config2 = Config()
-    # main(config2)
+    config2 = Config()
+    config2.name = "无标准化"
+    config2.do_std = False
+    main(config2)
+
+    config3 = Config()
+    config3.name = "切除边缘%5,标准化"
+    config3.do_crop_edge = True
+    main(config3)
+
+    config4 = Config()
+    config4.name = "切除边缘%5,无标准化"
+    config4.do_crop_edge = True
+    main(config4)
+
+    config5 = Config()
+    config5.name = "nms最小200"
+    config5.nms_min_area = 200
+    main(config5)
+
+    config5 = Config()
+    config5.name = "nms最小200 & iou0.5"
+    config5.nms_min_area = 200
+    config5.nms_iou = 0.5
+    main(config5)
+
