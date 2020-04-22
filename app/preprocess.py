@@ -51,7 +51,7 @@ def crop_image_edge(image, percent):
     return new_img
 
 
-def main(config: Config):
+def pred_batch(config: Config):
     model_path = "./model/100001"
     img_path_txt = "data/validate.txt"
 
@@ -119,37 +119,41 @@ def main(config: Config):
         logger.info("--------------end------------------------")
         logger.info("模式[%r""]预测结束：总条数：%r,正确条数：%r,，正确率:%r",config.name, cnt_all, true_cnt, true_cnt / cnt_all)
 
+def main():
+    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+    with tf.device('/gpu:1'):
+        config1 = Config()
+        config1.name = "默认"
+        pred_batch(config1)
+
+        config2 = Config()
+        config2.name = "无标准化"
+        config2.do_std = False
+        pred_batch(config2)
+
+        config3 = Config()
+        config3.name = "切除边缘%5,标准化"
+        config3.do_crop_edge = True
+        pred_batch(config3)
+
+        config4 = Config()
+        config4.name = "切除边缘%5,无标准化"
+        config4.do_crop_edge = True
+        pred_batch(config4)
+
+        config5 = Config()
+        config5.name = "nms最小200最大2000"
+        config5.nms_min_area = 200
+        config5.nms_min_area = 2000
+        pred_batch(config5)
+
+        config5 = Config()
+        config5.name = "nms最小200最大2000 & iou0.5"
+        config5.nms_min_area = 200
+        config5.nms_min_area = 2000
+        config5.nms_iou = 0.5
+        main(config5)
+
 
 if __name__ == '__main__':
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
-    config1 = Config()
-    config1.name = "默认"
-    main(config1)
-    config2 = Config()
-    config2.name = "无标准化"
-    config2.do_std = False
-    main(config2)
-
-    config3 = Config()
-    config3.name = "切除边缘%5,标准化"
-    config3.do_crop_edge = True
-    main(config3)
-
-    config4 = Config()
-    config4.name = "切除边缘%5,无标准化"
-    config4.do_crop_edge = True
-    main(config4)
-
-    config5 = Config()
-    config5.name = "nms最小200最大2000"
-    config5.nms_min_area = 200
-    config5.nms_min_area = 2000
-    main(config5)
-
-    config5 = Config()
-    config5.name = "nms最小200最大2000 & iou0.5"
-    config5.nms_min_area = 200
-    config5.nms_min_area = 2000
-    config5.nms_iou = 0.5
-    main(config5)
-
+    tf.app.run()
