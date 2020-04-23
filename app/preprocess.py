@@ -86,11 +86,11 @@ def pred_batch(config: Config):
             # 预测
             logger.info("image shape:%r",image.shape)
             # angle, img_rotate = tuning(image)
+            # logger.info("小角度：%r", angle)
             img_rotate = image
             if config.do_crop_edge:
                 img_rotate = crop_image_edge(img_rotate, config.crop_edge_percent)
 
-            logger.info("小角度：%r", angle)
             patches = preprocess_utils.get_patches(img_rotate, config)
             # logger.debug("将图像分成%d个patches", len(patches))
             logger.info("开始预测")
