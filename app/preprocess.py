@@ -85,7 +85,8 @@ def pred_batch(config: Config):
             cnt_all += 1
             # 预测
             logger.info("image shape:%r",image.shape)
-            angle, img_rotate = tuning(image)
+            # angle, img_rotate = tuning(image)
+            img_rotate = image
             if config.do_crop_edge:
                 img_rotate = crop_image_edge(img_rotate, config.crop_edge_percent)
 
