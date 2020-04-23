@@ -122,25 +122,25 @@ def pred_batch(config: Config):
 
 
 def main(argv=None):
-    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
-    config1 = Config()
-    config1.name = "默认"
-    pred_batch(config1)
-
-    config2 = Config()
-    config2.name = "无标准化"
-    config2.do_std = False
-    pred_batch(config2)
-
-    config3 = Config()
-    config3.name = "切除边缘%5,标准化"
-    config3.do_crop_edge = True
-    pred_batch(config3)
-
-    config4 = Config()
-    config4.name = "切除边缘%5,无标准化"
-    config4.do_crop_edge = True
-    pred_batch(config4)
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    # config1 = Config()
+    # config1.name = "默认"
+    # pred_batch(config1)
+    #
+    # config2 = Config()
+    # config2.name = "无标准化"
+    # config2.do_std = False
+    # pred_batch(config2)
+    #
+    # config3 = Config()
+    # config3.name = "切除边缘%5,标准化"
+    # config3.do_crop_edge = True
+    # pred_batch(config3)
+    #
+    # config4 = Config()
+    # config4.name = "切除边缘%5,无标准化"
+    # config4.do_crop_edge = True
+    # pred_batch(config4)
 
     config5 = Config()
     config5.name = "nms最小200最大2000"
@@ -148,12 +148,12 @@ def main(argv=None):
     config5.nms_min_area = 2000
     pred_batch(config5)
 
-    config5 = Config()
-    config5.name = "nms最小200最大2000 & iou0.5"
-    config5.nms_min_area = 200
-    config5.nms_min_area = 2000
-    config5.nms_iou = 0.5
-    pred_batch(config5)
+    config6 = Config()
+    config6.name = "nms最小200最大2000 & iou0.5"
+    config6.nms_min_area = 200
+    config6.nms_min_area = 2000
+    config6.nms_iou = 0.5
+    pred_batch(config6)
 
 
 if __name__ == '__main__':

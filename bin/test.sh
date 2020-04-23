@@ -5,4 +5,4 @@ mkdir logs
 fi
 
 nohup python -m app.preprocess \
->> ./logs/console_$Date.log 2>&1 &
+>> ./logs/_console_$Date.log 2>&1 &
