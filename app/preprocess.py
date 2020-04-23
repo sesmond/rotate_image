@@ -143,15 +143,16 @@ def main(argv=None):
     # pred_batch(config4)
 
     config5 = Config()
-    config5.name = "nms最小200最大2000"
-    config5.nms_min_area = 200
-    config5.nms_min_area = 2000
+    config5.name = "nms最小20最大2000"
+    config5.nms_min_area = 20
+    config5.nms_max_area = 2000
+    config5.do_debug = True
     pred_batch(config5)
-
+    #
     config6 = Config()
     config6.name = "nms最小200最大2000 & iou0.5"
     config6.nms_min_area = 200
-    config6.nms_min_area = 2000
+    config6.nms_max_area = 2000
     config6.nms_iou = 0.5
     pred_batch(config6)
 
