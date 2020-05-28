@@ -11,7 +11,8 @@ class Config:
     nms_max_area = 600
     # 对IOU>0.3的进行NMS筛选，剩下的是靠谱的框（在remains里面）
     nms_iou = 0.3
-
+    # 是否缩放
+    do_resize = True
     # 是否去除边缘
     do_crop_edge = False
     crop_edge_percent = 0.05
