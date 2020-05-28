@@ -2,7 +2,7 @@ class Config:
     #
     name = "default"
     # 小图片最多个数
-    max_counter = 32
+    max_counter = 100
     # 是否标准化
     do_std = True
     # 多少一下的过滤掉
@@ -15,6 +15,10 @@ class Config:
     # 是否去除边缘
     do_crop_edge = False
     crop_edge_percent = 0.05
+
+    # 是否切小图存储
+    do_debug = False
+
 
 
 if __name__ == '__main__':
