@@ -139,6 +139,7 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
     config1 = Config()
     config1.name = "默认"
+    config1.do_resize =False
     pred_batch(config1)
     #
     # config2 = Config()
