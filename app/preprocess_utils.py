@@ -42,7 +42,7 @@ def get_patches(img,config :Config):
     # 随机取32个，之前按顺序来，并且只有16个，对比较大的图，如3000x4000这类的，就会值切到某个边缘，如果边缘没有单据图像就惨了
     # 所以，现在是随机取32个。改进后，效果好一些了。
     patch_idxes = np.arange(0, len(candidate_patches))
-    random.shuffle(patch_idxes)
+    # random.shuffle(patch_idxes)
 
     # 从随机里面只取32个出来，32 hardcode了
     # TODO 还需要做优化
