@@ -1,20 +1,18 @@
-from functools import reduce
 import cv2
 import numpy as np
-import logging
 from app.tuning import RotateProcessor
 from app import preprocess_utils
 from app.dto.preprocess_config import Config
 
 import tensorflow as tf
-
+import math
 import os
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
-
-logging.basicConfig(level = logging.DEBUG,format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+import logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
+logger.info("heleo")
 rotate_processor = RotateProcessor()
 
 # CLASS_NAME = [0,90,180,270]
@@ -27,6 +25,10 @@ ANGLE_MAP = {
     3: 1
 }
 
+
+def init_log():
+    logger.info("hello")
+    # logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # 返回的是以原图逆时针旋转"多少度？"后变正
 def tuning(image):
@@ -90,12 +92,23 @@ def pred_batch(config: Config):
             img_rotate = image
             if config.do_crop_edge:
                 img_rotate = crop_image_edge(img_rotate, config.crop_edge_percent)
+            #TODO 图片太大或太小缩放图片到合理大小
+            # 短边1600，长边 2600
+            w,h,_ = img_rotate.shape
+            min_val = min(w,h)
+            # 设一个最大最小值
+            if min_val < 1200 or min_val > 1800:
+                x_scale = 1600/min_val
+                logger.info("缩放倍数：%r",x_scale)
+                img_rotate = cv2.resize(img_rotate, None, fx=x_scale, fy=x_scale, interpolation=cv2.INTER_AREA)
+            logger.info("resize之后 image shape:%r",img_rotate.shape)
 
             patches = preprocess_utils.get_patches(img_rotate, config)
             # logger.debug("将图像分成%d个patches", len(patches))
             logger.info("开始预测")
             candiCls = sess.run(output, feed_dict={input_x: patches})
             logger.info("预测结束：%r", candiCls)
+            print("预测结束：",candiCls)
             # 返回众数
             counts = np.bincount(candiCls)
             cls = np.argmax(counts)
@@ -121,11 +134,11 @@ def pred_batch(config: Config):
         logger.info("模式[%r""]预测结束：总条数：%r,正确条数：%r,，正确率:%r",config.name, cnt_all, true_cnt, true_cnt / cnt_all)
 
 
-def main(argv=None):
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-    # config1 = Config()
-    # config1.name = "默认"
-    # pred_batch(config1)
+def main():
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+    config1 = Config()
+    config1.name = "默认"
+    pred_batch(config1)
     #
     # config2 = Config()
     # config2.name = "无标准化"
@@ -140,22 +153,23 @@ def main(argv=None):
     # config4 = Config()
     # config4.name = "切除边缘%5,无标准化"
     # config4.do_crop_edge = True
-    # pred_batch(config4)
-
-    config5 = Config()
-    config5.name = "nms最小20最大2000"
-    config5.nms_min_area = 20
-    config5.nms_max_area = 2000
-    config5.do_debug = True
-    pred_batch(config5)
+    # # pred_batch(config4)
     #
-    config6 = Config()
-    config6.name = "nms最小200最大2000 & iou0.5"
-    config6.nms_min_area = 200
-    config6.nms_max_area = 2000
-    config6.nms_iou = 0.5
-    pred_batch(config6)
+    # config5 = Config()
+    # config5.name = "nms最小20最大2000"
+    # # config5.nms_min_area = 20
+    # # config5.nms_max_area = 2000
+    # config5.do_debug = True
+    # pred_batch(config5)
+    #
+    # config6 = Config()
+    # config6.name = "nms最小200最大2000 & iou0.5"
+    # config6.nms_min_area = 200
+    # config6.nms_max_area = 2000
+    # config6.nms_iou = 0.5
+    # pred_batch(config6)
 
 
 if __name__ == '__main__':
+    logger.debug("testset")
     main()
