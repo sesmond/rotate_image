@@ -101,7 +101,7 @@ def pred_batch(config: Config):
                 x_scale = 1600/min_val
                 logger.info("缩放倍数：%r",x_scale)
                 img_rotate = cv2.resize(img_rotate, None, fx=x_scale, fy=x_scale, interpolation=cv2.INTER_AREA)
-            logger.info("resize之后 image shape:%r",img_rotate.shape)
+                logger.info("resize之后 image shape:%r",img_rotate.shape)
 
             patches = preprocess_utils.get_patches(img_rotate, config)
             # logger.debug("将图像分成%d个patches", len(patches))
