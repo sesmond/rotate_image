@@ -94,14 +94,15 @@ def pred_batch(config: Config):
                 img_rotate = crop_image_edge(img_rotate, config.crop_edge_percent)
             #TODO 图片太大或太小缩放图片到合理大小
             # 短边1600，长边 2600
-            w,h,_ = img_rotate.shape
-            min_val = min(w,h)
-            # 设一个最大最小值
-            if min_val < 1200 or min_val > 1800:
-                x_scale = 1600/min_val
-                logger.info("缩放倍数：%r",x_scale)
-                img_rotate = cv2.resize(img_rotate, None, fx=x_scale, fy=x_scale, interpolation=cv2.INTER_AREA)
-                logger.info("resize之后 image shape:%r",img_rotate.shape)
+            if config.do_resize:
+                w,h,_ = img_rotate.shape
+                min_val = min(w,h)
+                # 设一个最大最小值
+                if min_val < 1200 or min_val > 1800:
+                    x_scale = 1600/min_val
+                    logger.info("缩放倍数：%r",x_scale)
+                    img_rotate = cv2.resize(img_rotate, None, fx=x_scale, fy=x_scale, interpolation=cv2.INTER_AREA)
+                    logger.info("resize之后 image shape:%r",img_rotate.shape)
 
             patches = preprocess_utils.get_patches(img_rotate, config)
             # logger.debug("将图像分成%d个patches", len(patches))
