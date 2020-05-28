@@ -99,7 +99,7 @@ def pred_batch(config: Config):
                 min_val = min(w,h)
                 # 设一个最大最小值
                 if min_val < 1200 or min_val > 1800:
-                    x_scale = 1600/min_val
+                    x_scale = 1400/min_val
                     logger.info("缩放倍数：%r",x_scale)
                     img_rotate = cv2.resize(img_rotate, None, fx=x_scale, fy=x_scale, interpolation=cv2.INTER_AREA)
                     logger.info("resize之后 image shape:%r",img_rotate.shape)
